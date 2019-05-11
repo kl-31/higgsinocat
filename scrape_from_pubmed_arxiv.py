@@ -74,7 +74,8 @@ if __name__ == '__main__':
 	
 	# ARXIV QUERY
 		groups = [['all:%22dark+energy%22', 'cat:astro-ph+ANDNOT+all:%22dark+matter%22','cat:hep-ph+ANDNOT+all:%22dark+matter%22'],
-				   ['all:%22primordial+black+hole%22', 'all:%22dark+sector%22', 'all:%22dark+matter%22']]
+				   ['all:%22primordial+black+hole%22','all:%22dark+sector%22','all:%22dark+matter%22','all:wimp','all:axion',
+					'all:alp',	'all:%22sterile+neutrino%22','all:%22dark+photon%22','all:%22dark+radiation%22']]
 
 		for group in groups:
 			for query in group:
@@ -91,7 +92,7 @@ if __name__ == '__main__':
 						title = (entry.title).replace('\n', "")
 						file_writer.writerow([unidecode(title), str(groups.index(group))])
 						num = num+1
-				print('%d titles saved from Arxiv %s.' % (num, query))
+				print('%d titles saved from Arxiv %s in class %s.' % (num, query,str(groups.index(group)) ))
 
 	
 	
