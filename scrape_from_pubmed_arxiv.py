@@ -73,7 +73,8 @@ if __name__ == '__main__':
 #				print('%d titles saved in %s.' % (num,query))
 	
 	# ARXIV QUERY
-		groups = [['all:%22dark+energy%22', 'cat:astro-ph+ANDNOT+all:%22dark+matter%22','cat:hep-ph+ANDNOT+all:%22dark+matter%22'],
+		groups = [['all:%22dark+energy%22', 'cat:astro-ph+ANDNOT+all:%22dark+matter%22','cat:hep-ph+ANDNOT+all:%22dark+matter%22', 
+				 'cat:hep-ex+ANDNOT+all:%22dark+matter%22','cat:hep-th+ANDNOT+all:%22dark+matter%22','cat:gr-qc+ANDNOT+all:%22dark+matter%22' ],
 				   ['all:%22primordial+black+hole%22','all:%22dark+sector%22','all:%22dark+matter%22','all:wimp','all:axion',
 					'all:alp',	'all:%22sterile+neutrino%22','all:%22dark+photon%22','all:%22dark+radiation%22']]
 
@@ -82,6 +83,8 @@ if __name__ == '__main__':
 				num=0
 				if query[0:3] == 'all' and ('dark+matter' not in query):
 					retmax = 5000
+				elif query[0:3] == 'cat':
+					retmax = 20000
 				else:
 					retmax = 30000
 				for chunk_i in range(0, retmax, chunk_size):
