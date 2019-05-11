@@ -15,8 +15,8 @@ else:
 
 written = 0
 posted = 0
-titles_list = helpers.get_titles_db()
 for feed in feed_info.keys():	
+	titles_list = helpers.get_titles_db()
 	#print(feed)
 	feed_name = feed_info[feed]['name']
 	feed_path = feed_info[feed]['path']
