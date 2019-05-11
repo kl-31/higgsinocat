@@ -10,50 +10,7 @@ if isfile('feed_info.txt'):
 	feed_info = json.load(open("feed_info.txt"))
 else:
 	feed_info = {
-			'optica': 
-				{'name':'Optica', 
-				 'path': 'http://metadata.osa.org/rss/infobase/optica_feed.xml',
-				 'etag':''},
-			 'lsa':
-				 {'name': 'Light: Science and Applications',
-				'path': 'http://feeds.nature.com/lsa/rss/current?fmt=xml',
-				  'etag': ''},
-			  'nat_photon':
-				  {'name':'Nature Photonics',
-				   'path': 'http://www.nature.com/nphoton/journal/vaop/ncurrent/rss.rdf',
-				   'etag': ''},
-			'oe':
-				{'name': 'Optics Express',
-					 'path': 'http://metadata.osa.org/rss/infobase/opex_feed.xml',
-					 'etag': ''},
-				'boe':
-					{'name': 'Biomedical Optics Express',
-					  'path': 'http://metadata.osa.org/rss/infobase/boe_feed.xml',
-					  'etag': ''},
-				'ol':
-					{'name': 'Optics Letters',
-					  'path': 'http://metadata.osa.org/rss/infobase/ol_feed.xml',
-					  'etag': ''},
-				'nat_meth':
-					{'name': 'Nature Methods',
-						'path': 'http://www.nature.com/nmeth/journal/vaop/ncurrent/rss.rdf',
-						'etag': ''},
-				'nat_bme':
-					{'name': 'Nature BME',
-						  'path': 'http://feeds.nature.com/natbiomedeng/rss/current?fmt=xml',
-						  'etag': ''},
-					'science':
-					{'name': 'Science',
-						  'path': 'http://science.sciencemag.org/rss/express.xml',
-						  'etag': ''},
-					'nat_comms':
-					{'name': 'Nature Communications',
-						  'path': 'http://feeds.nature.com/ncomms/rss/current?fmt=xml',
-						  'etag': ''},
-					  'science_advances':
-					{'name': 'Science Advances',
-						  'path': 'https://advances.sciencemag.org/rss/current.xml',
-						  'etag': ''}
+
 					}
 
 written = 0
@@ -88,9 +45,9 @@ for feed in feed_info.keys():
 			if proba_out[-1] >=0.5:
 				if helpers.tweet_post('%s (relevance: %.0f%%) %s #biophotonics #biomedicaloptics' % (entry.title, proba_out[-1]* 100,entry.link)):
 						posted = posted + 1
-			elif proba_out[-1] < 0.5 and (feed_name == 'Biomedical Optics Express' or feed_name == 'Journal of Biophotonics'):
-				if helpers.tweet_post('%s (relevance: %.0f%% but this is in %s so my model probably meowssed up) %s #biophotonics #biomedicaloptics' % (entry.title, proba_out[-1]* 100, feed_name, entry.link)):
-						posted = posted + 1
+#			elif proba_out[-1] < 0.5 and (feed_name == 'Biomedical Optics Express' or feed_name == 'Journal of Biophotonics'):
+#				if helpers.tweet_post('%s (relevance: %.0f%% but this is in %s so my model probably meowssed up) %s #biophotonics #biomedicaloptics' % (entry.title, proba_out[-1]* 100, feed_name, entry.link)):
+#						posted = posted + 1
 				
 		if posted >=22: # 22 hours elapsed  
 		   break
