@@ -49,9 +49,9 @@ for feed in feed_info.keys():
 #				if helpers.tweet_post('%s (relevance: %.0f%% but this is in %s so my model probably meowssed up) %s #biophotonics #biomedicaloptics' % (entry.title, proba_out[-1]* 100, feed_name, entry.link)):
 #						posted = posted + 1
 				
-		if posted >=22: # 22 hours elapsed  
+		if posted >=46: # 46/2 hours elapsed  
 		   break
-	if posted >=22: # 22 hours elapsed  
+	if posted >=46: # 46/2 hours elapsed  
 		break
 			#print('%d: %s' % (i,row[0]))
 print('%d rows written.' % written)
