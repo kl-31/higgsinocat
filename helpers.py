@@ -95,8 +95,8 @@ def tweet_post(line):
 	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
 	api = tweepy.API(auth)	
 	try:
-		api.update_status(line)
-		sleep(60*60)
+		#api.update_status(line)
+		#sleep(60*60)
 		return True
 	except tweepy.TweepError as e:
 		print(e.args[0][0]['message'])
