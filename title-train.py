@@ -48,7 +48,7 @@ def normalize_text(s):
 vectorizer = HashingVectorizer()
 
 # grab the data
-titles = pd.read_csv("new-paper-titles-data.csv", names=['title','category'])
+titles = pd.read_csv("dmcat_data.csv", names=['title','category'])
 titles['text'] = [normalize_text(str(s)) for s in titles['title']]
 
 # unseen data
@@ -63,7 +63,7 @@ titles['text'] = [normalize_text(str(s)) for s in titles['title']]
 # split into train and test sets
 data_train, data_test, y_train, y_test = train_test_split(titles['text'], titles['category'], test_size=0.2)
 
-target_names = ['0','1','2']
+target_names = ['0','1']
 
 # pull the data into vectors
 
