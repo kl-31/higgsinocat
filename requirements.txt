@@ -5,4 +5,5 @@ tweepy
 feedparser
 gspread
 oauth2client
+scipy==1.1.0
 
