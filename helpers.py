@@ -44,7 +44,7 @@ def get_titles_db():
     keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
 	client = gspread.authorize(creds)
-	sh = client.open_by_key('1PoD8M5_fg33gdAktthKXrsyPwHMqSMASDRIX1i_zYtk')
+	sh = client.open_by_key('1EwXRCRo3SUgm5GAH5mvKwQbesWL5Xqu8xMkJPxFaH64')
 	worksheet = sh.sheet1
 	titles_list = worksheet.col_values(1)	
 	return titles_list
@@ -54,7 +54,7 @@ def write_to_db(row):
     keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
 	client = gspread.authorize(creds)
-	sh = client.open_by_key('1PoD8M5_fg33gdAktthKXrsyPwHMqSMASDRIX1i_zYtk')
+	sh = client.open_by_key('1EwXRCRo3SUgm5GAH5mvKwQbesWL5Xqu8xMkJPxFaH64')
 	worksheet = sh.sheet1
 	worksheet.insert_row(row,1)
 	sleep(1) # google api 60 write requests per 60 sec
@@ -86,7 +86,7 @@ def compute_proba(titles):
 	arr[1] = titles['link'][0]
 	arr[2] = titles['journal_name'][0]
 	arr[3] = titles['abstract'][0]
-	arr[4] = float(pred[:,2])
+	arr[4] = float(pred[:,1])
 	return arr
 	
 
