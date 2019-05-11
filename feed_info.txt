@@ -1,0 +1,17 @@
+{
+  "astro-ph.CO": {
+    "name": "astro-ph.CO",
+    "path": "http://export.arxiv.org/rss/astro-ph.CO",
+    "etag": ""
+  },
+    "hep-ph": {
+    "name": "hep-ph",
+    "path": "http://export.arxiv.org/rss/hep-ph",
+    "etag": ""
+  },
+    "hep-ex": {
+    "name": "hep-ex",
+    "path": "http://export.arxiv.org/rss/hep-ex",
+    "etag": ""
+  }
+}
