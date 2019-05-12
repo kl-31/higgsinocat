@@ -9,9 +9,14 @@
     "path": "http://export.arxiv.org/rss/hep-ph",
     "etag": ""
   },
-    "hep-ex": {
+   "hep-ex": {
     "name": "hep-ex",
     "path": "http://export.arxiv.org/rss/hep-ex",
+    "etag": ""
+  },  
+    "astro-ph.HE": {
+    "name": "astro-ph.HE",
+    "path": "http://export.arxiv.org/rss/astro-ph.HE",
     "etag": ""
   }
 }
