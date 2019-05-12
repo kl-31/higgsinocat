@@ -43,7 +43,8 @@ for feed in feed_info.keys():
 			helpers.write_to_db(proba_out)
 			written = written + 1
 			if proba_out[-1] >=0.5:
-				if helpers.tweet_post('%s (relevance: %.0f%%) %s #darkmatter' % (entry.title, proba_out[-1]* 100,entry.link)):
+				handles = helpers.get_author_handles(entry.authors)
+				if helpers.tweet_post('%s (relevance: %.0f%%) %s #darkmatter %s' % (entry.title, proba_out[-1]* 100,entry.link,handles)):
 						posted = posted + 1
 #			elif proba_out[-1] < 0.5 and (feed_name == 'Biomedical Optics Express' or feed_name == 'Journal of Biophotonics'):
 #				if helpers.tweet_post('%s (relevance: %.0f%% but this is in %s so my model probably meowssed up) %s #biophotonics #biomedicaloptics' % (entry.title, proba_out[-1]* 100, feed_name, entry.link)):
