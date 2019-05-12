@@ -18,6 +18,8 @@ import tweepy
 from time import sleep
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import html2text
+from fuzzywuzzy import fuzz
 
 #import bitly_api
 #import sys
@@ -89,6 +91,25 @@ def compute_proba(titles):
 	arr[4] = float(pred[:,1])
 	return arr
 	
+def get_author_handles(raw_author_list):
+	if isfile('author_handles.json'):
+		handles_data = json.load(open('author_handles.json'))
+	else:
+		handles_data = {}
+	handles_all = ''
+#	h = html2text.HTML2Text()
+#	h.ignore_links = True	
+#	author_list = h.handle(raw_author_list)
+#	author_list = author_list.replace('\n','').split(', ')
+	for raw_author in raw_author_list:
+		author = raw_author['name']
+		for handle_query in handles_data.keys():
+			if fuzz.partial_ratio(normalize_text(author),normalize_text(handle_query)) > 75:
+				handles_all = handles_all + handles_data[handle_query] + ' '
+				break
+	return handles_all
+				
+			
 
 def tweet_post(line):
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
