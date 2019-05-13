@@ -133,7 +133,7 @@ def scrape_image(link):
 				imwrite('./data/tweet_pic.png',np.array(pic))
 				return True
 			elif picraw[-3:]=='eps':
-				call(['convert','-density','300',picraw,'./data/tweet_pic.png'])
+				call(['convert','-density','300','-fuzz','1%','-trim','+repage',picraw,'./data/tweet_pic.png'])
 				return True
 			return False
 		else:
