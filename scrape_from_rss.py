@@ -7,6 +7,7 @@ from os.path import isfile
 import helpers
 from time import sleep
 import re
+import datetime
 
 if isfile('feed_info.txt'):
 	feed_info = json.load(open("feed_info.txt"))
@@ -17,7 +18,7 @@ else:
 
 written = 0
 posted = 0
-while written == 0:
+while written == 0 and not (datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6):
 	for feed in feed_info.keys():	
 		titles_list = helpers.get_titles_db()
 		#print(feed)
