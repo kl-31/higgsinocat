@@ -6,6 +6,7 @@ import json
 from os.path import isfile
 import helpers
 from time import sleep
+import re
 
 if isfile('feed_info.txt'):
 	feed_info = json.load(open("feed_info.txt"))
@@ -38,7 +39,7 @@ while written == 0:
 			#print('Number of RSS posts : %d' % len(feed_rss.entries))	
 		for i in range(len(feed_rss.entries)):
 			entry = feed_rss.entries[i]
-			row = [[unidecode(entry.title), entry.link, feed_name, entry.description]] # 2D array of size (1,3)
+			row = [[re.sub(r'\([^()]*\)', '', unidecode(entry.title)), entry.link, feed_name, entry.description]] # 2D array of size (1,3)
 			if row[0][0] not in titles_list:
 				proba_out = helpers.compute_proba(row)
 				#print(proba_out)
