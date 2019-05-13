@@ -123,12 +123,15 @@ def scrape_image(link):
 		rmtree('./data/')
 	os.makedirs('./data/',exist_ok=True)
 	patoolib.extract_archive("source", outdir="./data/")
-	files = glob.glob('./data/' + '**/*.pdf', recursive=True)
-	if files != []:
-		picpdf = choice(files)
-		pic = convert_from_path(picpdf)
-		imwrite('./data/tweet_pic.png',np.array(pic))
-		return True
+	if glob.glob('./data/' + '**/*.tex', recursive=True) !=[]:
+		files = glob.glob('./data/' + '**/*.pdf', recursive=True)
+		if files != []:
+			picpdf = choice(files)
+			pic = convert_from_path(picpdf)
+			imwrite('./data/tweet_pic.png',np.array(pic))
+			return True
+		else:
+			return False
 	else:
 		return False
 	
