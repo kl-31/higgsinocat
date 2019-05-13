@@ -104,7 +104,7 @@ def get_author_handles(raw_author_list):
 	for raw_author in raw_author_list:
 		author = raw_author['name']
 		for handle_query in handles_data.keys():
-			if fuzz.partial_ratio(normalize_text(author),normalize_text(handle_query)) > 75:
+			if fuzz.partial_ratio(normalize_text(author),normalize_text(handle_query)) > 90:
 				handles_all = handles_all + handles_data[handle_query] + ' '
 				break
 	return handles_all
