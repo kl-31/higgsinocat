@@ -26,7 +26,6 @@ from shutil import rmtree
 import os
 import glob
 from random import choice
-from pdf2image import convert_from_path
 from imageio import imwrite
 from subprocess import call
 
@@ -124,21 +123,22 @@ def scrape_image(link):
 		rmtree('./data/')
 	os.makedirs('./data/',exist_ok=True)
 	patoolib.extract_archive("source", outdir="./data/")
-	if glob.glob('./data/' + '**/*.tex', recursive=True) !=[]:
-		files = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True)
-		if files != []:
-			picraw = choice(files)
-#			if picraw[-3:]=='pdf':
-#				pic = convert_from_path(picraw)
-#				imwrite('./data/tweet_pic.png',np.array(pic))
-#				return True
-#			elif picraw[-3:]=='eps':
-			call(['convert','-density','300','-fuzz','1%','-trim','+repage',picraw,'./data/tweet_pic.png'])
+#	if glob.glob('./data/' + '**/*.tex', recursive=True) !=[]:
+	files = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True)
+	if files != []:
+		picraw = choice(files)
+		call(['convert','-density','300','-fuzz','1%','-trim','+repage',picraw+'[0]','./data/tweet_pic.png'])
+		return True
+	else:
+		otherfiles = glob.glob('./data/' + '**/*.png', recursive=True) + glob.glob('./data/' + '**/*.jpg', recursive=True)
+		if otherfiles != []:
+			picraw = choice(otherfiles)
+			call(['convert','-density','300','-fuzz','1%','-trim','+repage',picraw+'[0]','./data/tweet_pic.png'])
 			return True
 		else:
 			return False
-	else:
-		return False
+#	else:
+#		if glob.glob('./data/' + '**/*.pdf', recursive=True) !=[]:	
 	
 
 def tweet_post(line,image_flag):
