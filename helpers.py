@@ -20,6 +20,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import html2text
 from fuzzywuzzy import fuzz
+import re
 
 #import bitly_api
 #import sys
@@ -77,7 +78,7 @@ def compute_proba(titles):
 	vectorizer = HashingVectorizer()
 	
 	titles = pd.DataFrame(titles,columns=['title','link','journal_name','abstract'])
-	titles['text'] = [normalize_text(str(s)) for s in titles['title']]
+	titles['text'] = [normalize_text(re.sub(r'\([^()]*\)', '', str(s))) for s in titles['title']]
 	X_test = vectorizer.fit_transform(titles['text'])
 	clf = joblib.load('new_trained_model.pkl')
 	
