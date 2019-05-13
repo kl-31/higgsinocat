@@ -18,7 +18,8 @@ else:
 
 written = 0
 posted = 0
-while written == 0 and not (datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6):
+attempts = 0
+while written == 0 and not (datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6) and attempts < 100:
 	for feed in feed_info.keys():	
 		titles_list = helpers.get_titles_db()
 		#print(feed)
@@ -62,4 +63,5 @@ while written == 0 and not (datetime.datetime.today().weekday()==5 or datetime.d
 		sleep(2)
 	print('%d rows written.' % written)
 	print('%d tweets posted.' % posted)
-	sleep(2)
+	attempts = attempts + 1
+	sleep(60)
