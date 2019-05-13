@@ -28,6 +28,7 @@ import glob
 from random import choice
 from pdf2image import convert_from_path
 from imageio import imwrite
+from subprocess import call
 
 #import bitly_api
 #import sys
@@ -124,12 +125,17 @@ def scrape_image(link):
 	os.makedirs('./data/',exist_ok=True)
 	patoolib.extract_archive("source", outdir="./data/")
 	if glob.glob('./data/' + '**/*.tex', recursive=True) !=[]:
-		files = glob.glob('./data/' + '**/*.pdf', recursive=True)
+		files = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True)
 		if files != []:
-			picpdf = choice(files)
-			pic = convert_from_path(picpdf)
-			imwrite('./data/tweet_pic.png',np.array(pic))
-			return True
+			picraw = choice(files)
+			if picraw[-3:]=='pdf':
+				pic = convert_from_path(picraw)
+				imwrite('./data/tweet_pic.png',np.array(pic))
+				return True
+			elif picraw[-3:]=='eps':
+				call(['convert','-density','300',picraw,'./data/tweet_pic.png'])
+				return True
+			return False
 		else:
 			return False
 	else:
