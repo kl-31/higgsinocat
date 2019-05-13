@@ -128,14 +128,13 @@ def scrape_image(link):
 		files = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True)
 		if files != []:
 			picraw = choice(files)
-			if picraw[-3:]=='pdf':
-				pic = convert_from_path(picraw)
-				imwrite('./data/tweet_pic.png',np.array(pic))
-				return True
-			elif picraw[-3:]=='eps':
-				call(['convert','-density','300','-fuzz','1%','-trim','+repage',picraw,'./data/tweet_pic.png'])
-				return True
-			return False
+#			if picraw[-3:]=='pdf':
+#				pic = convert_from_path(picraw)
+#				imwrite('./data/tweet_pic.png',np.array(pic))
+#				return True
+#			elif picraw[-3:]=='eps':
+			call(['convert','-density','300','-fuzz','1%','-trim','+repage',picraw,'./data/tweet_pic.png'])
+			return True
 		else:
 			return False
 	else:
