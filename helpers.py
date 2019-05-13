@@ -18,9 +18,16 @@ import tweepy
 from time import sleep
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import html2text
 from fuzzywuzzy import fuzz
 import re
+import urllib.request
+import patoolib
+from shutil import rmtree
+import os
+import glob
+from random import choice
+from pdf2image import convert_from_path
+from imageio import imwrite
 
 #import bitly_api
 #import sys
@@ -110,16 +117,36 @@ def get_author_handles(raw_author_list):
 				break
 	return handles_all
 				
-			
+def scrape_image(link):
+	urllib.request.urlretrieve(link.replace('abs','e-print'),'source')
+	if os.path.isdir('./data/'):
+		rmtree('./data/')
+	os.makedirs('./data/',exist_ok=True)
+	patoolib.extract_archive("source", outdir="./data/")
+	files = glob.glob('./data/' + '**/*.pdf', recursive=True)
+	if files != []:
+		picpdf = choice(files)
+		pic = convert_from_path(picpdf)
+		imwrite('./data/tweet_pic.png',np.array(pic))
+		return True
+	else:
+		return False
+	
+	
 
-def tweet_post(line):
+def tweet_post(line,image_flag):
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
 	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
 	api = tweepy.API(auth)	
 	try:
-		api.update_status(line)
-		sleep(30*60) #30 mins for arxiv
-		return True
+		if image_flag == False:
+			api.update_status(line)
+			sleep(30*60) #30 mins for arxiv
+			return True
+		else:
+			api.update_with_media('./data/tweet_pic.png',line)
+			sleep(30*60) #30 mins for arxiv
+			return True
 	except tweepy.TweepError as e:
 		print(e.args[0][0]['message'])
 		return False
