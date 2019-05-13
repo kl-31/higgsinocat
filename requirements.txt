@@ -9,4 +9,6 @@ scipy==1.1.0
 fuzzywuzzy
 html2text
 python-Levenshtein
-
+patool
+pdf2image
+imageio
