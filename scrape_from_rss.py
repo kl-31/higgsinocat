@@ -5,6 +5,7 @@ from unidecode import unidecode
 import json
 from os.path import isfile
 import helpers
+from time import sleep
 
 if isfile('feed_info.txt'):
 	feed_info = json.load(open("feed_info.txt"))
@@ -56,7 +57,7 @@ while written == 0:
 		if posted >=46: # 46/2 hours elapsed  
 			break
 				#print('%d: %s' % (i,row[0]))
-		pause(2)
+		sleep(2)
 	print('%d rows written.' % written)
 	print('%d tweets posted.' % posted)
-	pause(2)
+	sleep(2)
