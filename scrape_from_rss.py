@@ -56,5 +56,7 @@ while written == 0:
 		if posted >=46: # 46/2 hours elapsed  
 			break
 				#print('%d: %s' % (i,row[0]))
+		pause(2)
 	print('%d rows written.' % written)
 	print('%d tweets posted.' % posted)
+	pause(2)
