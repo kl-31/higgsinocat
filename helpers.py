@@ -132,7 +132,6 @@ def scrape_image(link):
 	else:
 		return False
 	
-	
 
 def tweet_post(line,image_flag):
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
@@ -151,7 +150,3 @@ def tweet_post(line,image_flag):
 		print(e.args[0][0]['message'])
 		return False
 
-#def shorten_link(link):
-#	b = bitly_api.Connection(API_USER, API_KEY)
-#	response = b.shorten(link)
-#	return response['url']
