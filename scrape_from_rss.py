@@ -41,8 +41,9 @@ while written == 0 and not (datetime.datetime.today().weekday()==5 or datetime.d
 			#print('Number of RSS posts : %d' % len(feed_rss.entries))	
 		for i in range(len(feed_rss.entries)):
 			entry = feed_rss.entries[i]
-			row = [[re.sub(r'\([^()]*\)', '', unidecode(entry.title)), entry.link, feed_name, entry.description]] # 2D array of size (1,3)
+			row = [[unidecode(entry.title), entry.link, feed_name, entry.description]] # 2D array of size (1,3)
 			if row[0][0] not in titles_list:
+				row[0][0] = re.sub(r'\([^()]*\)', '', row[0][0])
 				proba_out = helpers.compute_proba(row)
 				#print(proba_out)
 				helpers.write_to_db(proba_out)
