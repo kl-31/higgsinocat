@@ -126,20 +126,19 @@ def scrape_image(link):
 	os.makedirs('./data/',exist_ok=True)
 	patoolib.extract_archive("source", outdir="./data/")
 #	if glob.glob('./data/' + '**/*.tex', recursive=True) !=[]:
-	files = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True)+glob.glob('./data/' + '**/*.png', recursive=True)
+	files = glob.glob('./data/' + '**/*.png', recursive=True)
 	if files != []:
 		picraw = choice(files)
 		call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
 		return True
 	else:
-		return False
-#		otherfiles = glob.glob('./data/' + '**/*.png', recursive=True) + glob.glob('./data/' + '**/*.jpg', recursive=True)
-#		if otherfiles != []:
-#			picraw = choice(otherfiles)
-#			call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
-#			return True
-#		else:
-#			return False
+		otherfiles = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True)
+		if otherfiles != []:
+			picraw = choice(otherfiles)
+			call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
+			return True
+		else:
+			return False
 #	else:
 #		if glob.glob('./data/' + '**/*.pdf', recursive=True) !=[]:	
 	
