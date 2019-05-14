@@ -28,7 +28,7 @@ import glob
 from random import choice
 from imageio import imwrite
 from subprocess import call
-from html2text import html2text
+import html2text
 
 #import bitly_api
 #import sys
