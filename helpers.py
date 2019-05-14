@@ -28,6 +28,7 @@ import glob
 from random import choice
 from imageio import imwrite
 from subprocess import call
+from html2text import html2text
 
 #import bitly_api
 #import sys
@@ -105,12 +106,12 @@ def get_author_handles(raw_author_list):
 	else:
 		handles_data = {}
 	handles_all = ''
-#	h = html2text.HTML2Text()
-#	h.ignore_links = True	
-#	author_list = h.handle(raw_author_list)
-#	author_list = author_list.replace('\n','').split(', ')
-	for raw_author in raw_author_list:
-		author = raw_author['name']
+	h = html2text.HTML2Text()
+	h.ignore_links = True	
+	author_list = h.handle(raw_author_list[0]['name'])
+	author_list = (author_list).replace('\n',' ').split(', ')
+	for author in author_list:
+		#author = raw_author['name']
 		for handle_query in handles_data.keys():
 			if fuzz.partial_ratio(normalize_text(author),normalize_text(handle_query)) > 90:
 				handles_all = handles_all + handles_data[handle_query] + ' '
