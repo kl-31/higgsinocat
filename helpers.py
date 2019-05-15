@@ -29,6 +29,7 @@ from random import choice
 from imageio import imwrite
 from subprocess import call
 import html2text
+import datetime
 
 #import bitly_api
 #import sys
@@ -67,6 +68,8 @@ def write_to_db(row):
 	client = gspread.authorize(creds)
 	sh = client.open_by_key('1EwXRCRo3SUgm5GAH5mvKwQbesWL5Xqu8xMkJPxFaH64')
 	worksheet = sh.sheet1
+	row = row[0] # 1D is fine for gsheet
+	row.append(str(datetime.date.today()))
 	worksheet.insert_row(row,1)
 	sleep(1) # google api 60 write requests per 60 sec
 	return
