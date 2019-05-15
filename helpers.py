@@ -71,7 +71,7 @@ def write_to_db(row_to_write):
 	row_to_write.append(str(datetime.date.today()))
 	worksheet.insert_row(row_to_write,1)
 	sleep(1) # google api 60 write requests per 60 sec
-	return
+	return None
 
 
 def normalize_text(s):

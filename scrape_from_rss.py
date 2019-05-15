@@ -48,8 +48,8 @@ while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.dateti
 			row = [[unidecode(entry.title), entry.link, feed_name, entry.description]] # 2D array of size (1,3)
 			if row[0][0] not in titles_list:
 				proba_out = helpers.compute_proba(row)
-				print(row)
-				print(proba_out)
+				#print(row)
+				#print(proba_out)
 				helpers.write_to_db(proba_out)
 				written[n_feed] = written[n_feed] + 1
 				#print(proba_out)
