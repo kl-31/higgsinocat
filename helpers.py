@@ -68,8 +68,8 @@ def write_to_db(row_to_write):
 	client = gspread.authorize(creds)
 	sh = client.open_by_key('1EwXRCRo3SUgm5GAH5mvKwQbesWL5Xqu8xMkJPxFaH64')
 	worksheet = sh.sheet1
-	row_to_write.append(str(datetime.date.today()))
-	worksheet.insert_row(row_to_write,1)
+	#row_to_write.append(str(datetime.date.today())) #append is problematic
+	worksheet.insert_row(row_to_write+str(datetime.date.today()) ,1)
 	sleep(1) # google api 60 write requests per 60 sec
 	return None
 
