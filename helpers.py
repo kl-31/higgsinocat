@@ -61,15 +61,15 @@ def get_titles_db():
 	titles_list = worksheet.col_values(1)	
 	return titles_list
 
-def write_to_db(row):
+def write_to_db(row_to_write):
 	creds = ServiceAccountCredentials.from_json_keyfile_dict(
     keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
 	client = gspread.authorize(creds)
 	sh = client.open_by_key('1EwXRCRo3SUgm5GAH5mvKwQbesWL5Xqu8xMkJPxFaH64')
 	worksheet = sh.sheet1
-	row.append(str(datetime.date.today()))
-	worksheet.insert_row(row,1)
+	row_to_write.append(str(datetime.date.today()))
+	worksheet.insert_row(row_to_write,1)
 	sleep(1) # google api 60 write requests per 60 sec
 	return
 
