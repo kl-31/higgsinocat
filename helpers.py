@@ -126,7 +126,10 @@ def scrape_image(link):
 	if os.path.isdir('./data/'):
 		rmtree('./data/')
 	os.makedirs('./data/',exist_ok=True)
-	patoolib.extract_archive("source", outdir="./data/")
+	try:	
+		patoolib.extract_archive("source", outdir="./data/")
+	except:
+		return False	
 #	if glob.glob('./data/' + '**/*.tex', recursive=True) !=[]:
 	files = glob.glob('./data/' + '**/*.png', recursive=True)
 	if files != []:
