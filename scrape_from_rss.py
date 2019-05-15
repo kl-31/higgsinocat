@@ -51,6 +51,7 @@ while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.dateti
 				#print(proba_out)
 				helpers.write_to_db(proba_out)
 				written[n_feed] = written[n_feed] + 1
+				print(proba_out)
 				if proba_out[-1] >=0.5:
 					handles = helpers.get_author_handles(entry.authors)
 					title = entry.title
