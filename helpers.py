@@ -85,21 +85,22 @@ def normalize_text(s):
 	return s
 
 def compute_proba(titles):
-	vectorizer = HashingVectorizer()
+	vectorizer = HashingVectorizer(ngram_range=(1, 3))
 	
-	titles = pd.DataFrame(titles,columns=['title','link','journal_name','abstract'])
-	titles['text'] = [normalize_text(re.sub(r'\([^()]*\)', '', str(s))) for s in titles['title']]
+	titles = pd.DataFrame(titles,columns=['title','abstract','link','journal_name','abstract'])
+	titles['text'] = [normalize_text(re.sub(r'\([^()]*\)', '', str(s))) for s in titles['title']+titles['abstract']]
 	X_test = vectorizer.fit_transform(titles['text'])
 	clf = joblib.load('new_trained_model.pkl')
 	
 	pred = clf.predict_proba(X_test)
 	#arr = np.empty((np.size(titles,0),4),dtype=object)
-	arr = [None] * 5
+	arr = [None] * 6
 	arr[0] = titles['title'][0]
-	arr[1] = titles['link'][0]
-	arr[2] = titles['journal_name'][0]
-	arr[3] = titles['abstract'][0]
-	arr[4] = float(pred[:,1])
+	arr[1] = titles['abstract'][0]
+	arr[2] = titles['link'][0]
+	arr[3] = titles['journal_name'][0]
+	arr[4] = titles['abstract'][0]
+	arr[5] = float(pred[:,1])
 	return arr
 	
 def get_author_handles(raw_author_list):
