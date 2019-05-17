@@ -94,13 +94,12 @@ def compute_proba(titles):
 	
 	pred = clf.predict_proba(X_test)
 	#arr = np.empty((np.size(titles,0),4),dtype=object)
-	arr = [None] * 6
+	arr = [None] * 5
 	arr[0] = titles['title'][0]
 	arr[1] = titles['abstract'][0]
 	arr[2] = titles['link'][0]
 	arr[3] = titles['journal_name'][0]
-	arr[4] = titles['abstract'][0]
-	arr[5] = float(pred[:,1])
+	arr[4] = float(pred[:,1])
 	return arr
 	
 def get_author_handles(raw_author_list):
