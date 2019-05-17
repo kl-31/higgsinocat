@@ -51,7 +51,7 @@ if __name__ == '__main__':
 #	groups = [['physics', 'biology','engineering'],
 #			   ['biomedical optics', 'biophotonics','biology optics','optical biomedical microscopy']]
 	start = time.time()
-	with open('dmcat_data.csv', mode='w') as data_file:
+	with open('dmcat_data_abstracts.csv', mode='w') as data_file:
 		file_writer =  csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 #		for group in groups:
 #			retmax = 15000
@@ -75,7 +75,7 @@ if __name__ == '__main__':
 	# ARXIV QUERY
 		groups = [['all:%22dark+energy%22', 'cat:astro-ph+ANDNOT+all:%22dark+matter%22','cat:hep-ph+ANDNOT+all:%22dark+matter%22', 
 				 'cat:hep-ex+ANDNOT+all:%22dark+matter%22','cat:hep-th+ANDNOT+all:%22dark+matter%22','cat:gr-qc+ANDNOT+all:%22dark+matter%22' ],
-				   ['all:%22primordial+black+hole%22','all:%22dark+sector%22','all:%22dark+matter%22','all:wimp','all:axion',
+				   ['all:%22primordial+black+hole%22','all:%22dark+sector%22','all:%22dark+matter%22','all:wimp','all:axion','all:neutralino','all:higgsino','all:wino','all:scotogenic',
 					'all:alp',	'all:%22sterile+neutrino%22','all:%22dark+photon%22','all:%22dark+radiation%22']]
 
 		for group in groups:
@@ -92,8 +92,9 @@ if __name__ == '__main__':
 					
 					for i in range(len(feed.entries)):
 						entry = feed.entries[i]
-						title = (entry.title).replace('\n', "")
-						file_writer.writerow([unidecode(title), str(groups.index(group))])
+						title = (entry.title).replace('\n', " ")
+						abstract = (entry.summary).replace('\n', " ")
+						file_writer.writerow([unidecode(title), unidecode(abstract), str(groups.index(group))])
 						num = num+1
 				print('%d titles saved from Arxiv %s in class %s.' % (num, query,str(groups.index(group)) ))
 
