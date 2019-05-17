@@ -45,7 +45,8 @@ while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.dateti
 			#print('Number of RSS posts : %d' % len(feed_rss.entries))	
 		for i in range(len(feed_rss.entries)):
 			entry = feed_rss.entries[i]
-			row = [[unidecode(entry.title), entry.link, feed_name, entry.description]] # 2D array of size (1,3)
+			abstract = feed_rss.entries[i].summary[3:-4].replace('\n',' ')
+			row = [[unidecode(entry.title), abstract, entry.link, feed_name, entry.description]] # 2D array of size (1,3)
 			if row[0][0] not in titles_list:
 				proba_out = helpers.compute_proba(row)
 				#print(row)
