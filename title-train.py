@@ -16,7 +16,7 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 
 
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.feature_selection import SelectFromModel
 from sklearn.feature_selection import SelectKBest, chi2
@@ -26,16 +26,17 @@ from sklearn.svm import LinearSVC
 from sklearn.linear_model import SGDClassifier, LogisticRegression
 from sklearn.linear_model import Perceptron
 from sklearn.linear_model import PassiveAggressiveClassifier
-from sklearn.naive_bayes import BernoulliNB, MultinomialNB
+from sklearn.naive_bayes import BernoulliNB, MultinomialNB, GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import NearestCentroid
 from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier, GradientBoostingClassifier
 from sklearn.utils.extmath import density
 from sklearn import metrics
 from sklearn.externals import joblib
-from time import time
+import time
 import matplotlib.pyplot as plt
 import numpy as np
+import datetime
 
 
 def normalize_text(s):
@@ -44,12 +45,12 @@ def normalize_text(s):
 	s=s.translate(s.maketrans('', '', string.punctuation)) # remove punctuation
 	s = s.lower() # make lowercase
 	return s
-
-vectorizer = HashingVectorizer()
+start = time.time()
+vectorizer = HashingVectorizer(ngram_range=(1, 3))
 
 # grab the data
-titles = pd.read_csv("dmcat_data.csv", names=['title','category'])
-titles['text'] = [normalize_text(str(s)) for s in titles['title']]
+titles = pd.read_csv("dmcat_data_abstracts.csv", names=['title','abstract','category'])
+titles['text'] = [normalize_text(str(s)) for s in titles['title']+titles['abstract']]
 
 # unseen data
 #unseen_pd = pd.read_csv("paper-titles-unseen-optica.csv",names=['title','link','journal_name'],sep='\t',encoding ='latin1')
@@ -161,8 +162,11 @@ X_test = vectorizer.fit_transform(data_test)
 #
 #clf = LogisticRegression()
 #benchmark(clf)
-clf = LogisticRegression()
-grid_values = {'penalty': ['l1', 'l2'],'C':[0.001,.009,0.01,.09,1,5,10,25]}
+clf = SGDClassifier()
+
+grid_values =  {'loss':['log','modified_huber'],'penalty':['l2', 'l1', 'elasticnet'],'alpha':[1E-2, 1E-3, 1E-4, 1E-5,1E-6,1E-7],'learning_rate':['constant','optimal','invscaling'],'eta0':[1E-2, 1E-3, 1E-4, 1E-5,1E-6,1E-7]}
+#grid_values = {'n_estimators': [20,30,40,50,60],'learning_rate':[0.001,.009,0.01,.09,1,5,10],'algorithm':['SAMME','SAMME.R']}
+#grid_values = {'penalty': ['l1', 'l2'],'C':[0.001,.009,0.01,.09,1,5,10,25]}
 grid_clf = GridSearchCV(clf, param_grid = grid_values,scoring = 'recall_weighted')
 grid_clf.fit(X_train, y_train)
 print('Best Score: ', grid_clf.best_score_)
@@ -204,4 +208,5 @@ print(metrics.confusion_matrix(y_test, y_pred))
 #print('%d irrelevant papers found.' % len(irrelevant))
 
 
-
+end = time.time()
+print('time elapsed: %s' % datetime.timedelta(seconds=round(end - start)))
