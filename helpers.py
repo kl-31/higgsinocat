@@ -103,10 +103,20 @@ def compute_proba(titles):
 	return arr
 	
 def get_author_handles(raw_author_list):
-	if isfile('author_handles.json'):
-		handles_data = json.load(open('author_handles.json'))
-	else:
-		handles_data = {}
+	creds = ServiceAccountCredentials.from_json_keyfile_dict(
+	keyfile_dict=keyfile_dict, scopes=scopes)
+	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+	client = gspread.authorize(creds)
+	sh = client.open_by_key('1mvv1ZtqWnxQWk6FUV6b14Po4J0MlYyjq5jh0W8vU49o')
+	worksheet = sh.sheet1
+	names = worksheet.col_values(1)
+	handles = worksheet.col_values(2)	
+	handles_data = dict(zip(names,handles))
+	sleep(1) # always pause 1 sec after every gsheet read/write
+#	if isfile('author_handles.json'):
+#		handles_data = json.load(open('author_handles.json'))
+#	else:
+#		handles_data = {}
 	handles_all = ''
 	h = html2text.HTML2Text()
 	h.ignore_links = True	
