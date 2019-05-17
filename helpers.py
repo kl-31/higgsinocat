@@ -87,7 +87,7 @@ def normalize_text(s):
 def compute_proba(titles):
 	vectorizer = HashingVectorizer(ngram_range=(1, 3))
 	
-	titles = pd.DataFrame(titles,columns=['title','abstract','link','journal_name','feed'])
+	titles = pd.DataFrame(titles,columns=['title','abstract','link','journal_name'])
 	titles['text'] = [normalize_text(re.sub(r'\([^()]*\)', '', str(s))) for s in titles['title']+titles['abstract']]
 	X_test = vectorizer.fit_transform(titles['text'])
 	clf = joblib.load('new_trained_model.pkl')
