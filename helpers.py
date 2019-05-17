@@ -56,7 +56,7 @@ def get_titles_db():
     keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
 	client = gspread.authorize(creds)
-	sh = client.open_by_key('1EwXRCRo3SUgm5GAH5mvKwQbesWL5Xqu8xMkJPxFaH64')
+	sh = client.open_by_key('1DHGj_3CybB2hewWu8XsUbFer6iUcaLHBLjtGM9YHUIw')
 	worksheet = sh.sheet1
 	titles_list = worksheet.col_values(1)	
 	return titles_list
@@ -66,7 +66,7 @@ def write_to_db(row_to_write):
     keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
 	client = gspread.authorize(creds)
-	sh = client.open_by_key('1EwXRCRo3SUgm5GAH5mvKwQbesWL5Xqu8xMkJPxFaH64')
+	sh = client.open_by_key('1DHGj_3CybB2hewWu8XsUbFer6iUcaLHBLjtGM9YHUIw')
 	worksheet = sh.sheet1
 	#row_to_write.append(str(datetime.date.today())) #append is problematic
 	worksheet.insert_row(row_to_write+[str(datetime.date.today())] ,1)
@@ -155,12 +155,12 @@ def tweet_post(line,image_flag):
 	api = tweepy.API(auth)	
 	try:
 		if image_flag == False:
-			api.update_status(line)
-			sleep(30*60) #30 mins for arxiv
+			#api.update_status(line)
+			#sleep(30*60) #30 mins for arxiv
 			return True
 		else:
-			api.update_with_media('./data/tweet_pic.png',line)
-			sleep(30*60) #30 mins for arxiv
+			#api.update_with_media('./data/tweet_pic.png',line)
+			#sleep(30*60) #30 mins for arxiv
 			return True
 	except tweepy.TweepError as e:
 		print(e.args[0][0]['message'])
