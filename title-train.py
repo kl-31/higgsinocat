@@ -50,7 +50,7 @@ vectorizer = HashingVectorizer(ngram_range=(1, 3))
 
 # grab the data
 titles = pd.read_csv("dmcat_data_abstracts.csv", names=['title','abstract','category'])
-titles['text'] = [normalize_text(str(s)) for s in titles['title']+titles['abstract']]
+titles['text'] = [normalize_text(str(s)) for s in titles['title']+' '+titles['abstract']] # scraped data titles have no space at end.
 
 # unseen data
 #unseen_pd = pd.read_csv("paper-titles-unseen-optica.csv",names=['title','link','journal_name'],sep='\t',encoding ='latin1')
