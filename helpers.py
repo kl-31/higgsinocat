@@ -82,13 +82,14 @@ def normalize_text(s):
 	s = unidecode(str(s))
 	s=s.translate(s.maketrans('', '', string.punctuation)) # remove punctuation
 	s = s.lower() # make lowercase
+	s = s.replace('  ',' ') # remove double spaces
 	return s
 
 def compute_proba(titles):
 	vectorizer = HashingVectorizer(ngram_range=(1, 3))
 	
 	titles = pd.DataFrame(titles,columns=['title','abstract','link','journal_name'])
-	titles['text'] = [normalize_text(re.sub(r'\([^()]*\)', '', str(s))) for s in titles['title']+titles['abstract']] # already a space after title.
+	titles['text'] = [normalize_text(re.sub(r'\([^()]*\)', '', str(s))) for s in titles['title']+' '+titles['abstract']] 
 	X_test = vectorizer.fit_transform(titles['text'])
 	clf = joblib.load('new_trained_model.pkl')
 	
@@ -147,7 +148,7 @@ def scrape_image(link):
 		call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
 		return True
 	else:
-		otherfiles = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True)
+		otherfiles = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True) + glob.glob('./data/' + '**/*.ps', recursive=True)
 		if otherfiles != []:
 			picraw = choice(otherfiles)
 			call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
