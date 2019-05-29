@@ -103,7 +103,7 @@ def compute_proba(titles):
 	arr[4] = float(pred[:,1])
 	return arr
 	
-def get_author_handles(raw_author_list):
+def get_author_handles(raw_author_list,title):
 	creds = ServiceAccountCredentials.from_json_keyfile_dict(
 	keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
@@ -123,12 +123,16 @@ def get_author_handles(raw_author_list):
 	h.ignore_links = True	
 	author_list = h.handle(raw_author_list[0]['name'])
 	author_list = (author_list).replace('\n',' ').split(', ')
-	for author in author_list:
+	
 		#author = raw_author['name']
-		for handle_query in handles_data.keys():
+	for handle_query in handles_data.keys():
+		if fuzz.partial_ratio(title,handle_query) > 90:
+			handles_all = handles_all + handles_data[handle_query] + ' '
+			continue
+		for author in author_list:
 			if fuzz.ratio(normalize_text(author),normalize_text(handle_query)) > 90:
 				handles_all = handles_all + handles_data[handle_query] + ' '
-				print(author+' matched with ' +handle_query)
+				#print(author+' matched with ' +handle_query)
 				break
 	return handles_all
 				

@@ -55,7 +55,7 @@ while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.dateti
 				written[n_feed] = written[n_feed] + 1
 				#print(proba_out)
 				if proba_out[-1] >=0.3:
-					handles = helpers.get_author_handles(entry.authors)
+					handles = helpers.get_author_handles(entry.authors, unidecode(entry.title))
 					title = entry.title
 					if len(title) > 160:
 						title = title[:160] + '...'
