@@ -108,15 +108,16 @@ def pull_twitter_handles(account):
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
 	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
 	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)	
-	ids = []
+	names = []
+	handles = []
 	for page in tweepy.Cursor(api.friends_ids, screen_name=account).pages():
-		ids.extend(page)
-	user_objs = api.lookup_users(ids)
-	names = [user.name for user in user_objs]
-	handles = [user.screen_name for user in user_objs]
+		user_objs = api.lookup_users(page)
+		names.extend([user.name for user in user_objs])
+		handles.extend([user.screen_name for user in user_objs])
 	add_handles_data = dict(zip(names,handles))
-	print(len(ids))
-	print(add_handles_data)	
+	print(add_handles_data)
+	print(len(add_handles_data))
+	
 	return
 
 def get_author_handles(raw_author_list,title):
