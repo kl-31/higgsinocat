@@ -115,6 +115,7 @@ def pull_twitter_handles(account):
 			users_obj = api.lookup_users(page[chunk_i:chunk_i+100])
 			names.extend([user.name for user in users_obj])
 			handles.extend([user.screen_name for user in users_obj])
+			sleep(10)
 	add_handles_data = dict(zip(names,handles))
 	print(add_handles_data)
 	print(len(add_handles_data))
