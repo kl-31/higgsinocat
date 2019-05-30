@@ -108,16 +108,24 @@ def get_author_handles(raw_author_list,title):
 	keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
 	client = gspread.authorize(creds)
+	
+	# authors
 	sh = client.open_by_key('1mvv1ZtqWnxQWk6FUV6b14Po4J0MlYyjq5jh0W8vU49o')
 	worksheet = sh.sheet1
 	names = worksheet.col_values(1)
 	handles = worksheet.col_values(2)	
-	handles_data = dict(zip(names,handles))
+	author_handles_data = dict(zip(names,handles))
 	sleep(1) # always pause 1 sec after every gsheet read/write
-#	if isfile('author_handles.json'):
-#		handles_data = json.load(open('author_handles.json'))
-#	else:
-#		handles_data = {}
+	
+	# collabs
+	sh = client.open_by_key('1L-IYx86R63bB1t2j-9tI6uL5qRUATPEfaKMr9DoBRmw')
+	worksheet = sh.sheet1
+	names = worksheet.col_values(1)
+	handles = worksheet.col_values(2)	
+	collab_handles_data = dict(zip(names,handles))
+	sleep(1) # always pause 1 sec after every gsheet read/write
+	
+	
 	handles_all = ''
 	h = html2text.HTML2Text()
 	h.ignore_links = True	
@@ -125,13 +133,14 @@ def get_author_handles(raw_author_list,title):
 	author_list = (author_list).replace('\n',' ').split(', ')
 	
 		#author = raw_author['name']
-	for handle_query in handles_data.keys():
+	for handle_query in collab_handles_data.keys():
 		if fuzz.partial_ratio(title,handle_query) > 90:
-			handles_all = handles_all + handles_data[handle_query] + ' '
-			continue
+			handles_all = handles_all + collab_handles_data[handle_query] + ' '
+			
+	for handle_query in author_handles_data.keys():
 		for author in author_list:
 			if fuzz.ratio(normalize_text(author),normalize_text(handle_query)) > 90:
-				handles_all = handles_all + handles_data[handle_query] + ' '
+				handles_all = handles_all + author_handles_data[handle_query] + ' '
 				#print(author+' matched with ' +handle_query)
 				break
 	return handles_all
