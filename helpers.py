@@ -111,10 +111,10 @@ def pull_twitter_handles(account):
 	names = []
 	handles = []
 	for page in tweepy.Cursor(api.friends_ids, screen_name=account).pages():
-		for user in page:
-			user_obj = api.lookup_users(user)
-			names.extend(user_obj.name)
-			handles.extend(user_obj.screen_name)
+		for chunk_i in range(0,len(page),100):
+			users_obj = api.lookup_users(page[chunk_i:chunk_i+100])
+			names.extend([user.name for user in users_obj])
+			handles.extend([user.screen_name for user in users_obj])
 	add_handles_data = dict(zip(names,handles))
 	print(add_handles_data)
 	print(len(add_handles_data))
