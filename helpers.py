@@ -111,7 +111,8 @@ def pull_twitter_handles(account):
 	ids = []
 	for page in tweepy.Cursor(api.followers_ids, screen_name=account).pages():
 		ids.extend(page)
-	handles = [zip(api.get_user(id).name,api.get_user(id).screen_name) for id in ids]
+	handles = [zip(str(api.get_user(id).name),str(api.get_user(id).screen_name)) for id in ids]
+	print(len(ids))
 	print(handles)	
 	return
 
