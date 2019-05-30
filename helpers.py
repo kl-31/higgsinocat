@@ -103,6 +103,18 @@ def compute_proba(titles):
 	arr[4] = float(pred[:,1])
 	return arr
 	
+def pull_twitter_handles(account):
+	# twitter followers
+	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
+	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
+	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)	
+	ids = []
+	for page in tweepy.Cursor(api.followers_ids, screen_name=account).pages():
+		ids.extend(page)
+	handles = [zip(api.get_user(id).name,api.get_user(id).screen_name) for id in ids]
+	print(handles)	
+	return
+
 def get_author_handles(raw_author_list,title):
 	creds = ServiceAccountCredentials.from_json_keyfile_dict(
 	keyfile_dict=keyfile_dict, scopes=scopes)
@@ -125,6 +137,7 @@ def get_author_handles(raw_author_list,title):
 	collab_handles_data = dict(zip(names,handles))
 	sleep(1) # always pause 1 sec after every gsheet read/write
 	
+
 	
 	handles_all = ''
 	h = html2text.HTML2Text()

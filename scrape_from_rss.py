@@ -20,7 +20,7 @@ else:
 written = np.zeros(len(feed_info.keys()),dtype=np.int)
 posted = np.zeros(len(feed_info.keys()),dtype=np.int)
 attempts = 0
-
+helpers.pull_twitter_handles('higgsinocat')
 # check if any one of the feeds has been empty. not just all empty
 while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6) and attempts < 72:
 	n_feed = 0
