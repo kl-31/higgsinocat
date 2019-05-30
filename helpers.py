@@ -83,6 +83,7 @@ def normalize_text(s):
 	s=s.translate(s.maketrans('', '', string.punctuation)) # remove punctuation
 	s = s.lower() # make lowercase
 	s = s.replace('  ',' ') # remove double spaces
+	s = s.strip() # strip leading and trailing whitespace
 	return s
 
 def compute_proba(titles):
@@ -103,24 +104,30 @@ def compute_proba(titles):
 	arr[4] = float(pred[:,1])
 	return arr
 	
-def pull_twitter_handles(account):
+def pull_follower_handles(accounts):
 	# twitter followers
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
 	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
 	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)	
+	ids = []
 	names = []
 	handles = []
-	for page in tweepy.Cursor(api.friends_ids, screen_name=account).pages():
-		for chunk_i in range(0,len(page),100):
-			users_obj = api.lookup_users(page[chunk_i:chunk_i+100])
-			names.extend([user.name for user in users_obj])
-			handles.extend([user.screen_name for user in users_obj])
-			sleep(60)
+	for account in accounts:
+		for page in tweepy.Cursor(api.followers_ids, screen_name=account).pages():
+			ids.extend(page)
+			sleep(5)
+	ids = list(set(ids)) # dedupe
+	#print(len(ids))
+	for chunk_i in range(0,len(ids),100):
+		users_obj = api.lookup_users(ids[chunk_i:chunk_i+100])
+		names.extend([unidecode(user.name) for user in users_obj])
+		handles.extend(['@'+user.screen_name for user in users_obj])
+		sleep(5)
 	add_handles_data = dict(zip(names,handles))
-	print(add_handles_data)
-	print(len(add_handles_data))
+	#print(add_handles_data)
+	#print(len(add_handles_data))
 	
-	return
+	return add_handles_data
 
 def get_author_handles(raw_author_list,title):
 	creds = ServiceAccountCredentials.from_json_keyfile_dict(
@@ -135,6 +142,10 @@ def get_author_handles(raw_author_list,title):
 	handles = worksheet.col_values(2)	
 	author_handles_data = dict(zip(names,handles))
 	sleep(1) # always pause 1 sec after every gsheet read/write
+	
+	# twitter authors
+	twitter_handles_data = pull_follower_handles(['Xenon1T','luxdarkmatter'])
+	author_handles_data.update(twitter_handles_data)
 	
 	# collabs
 	sh = client.open_by_key('1L-IYx86R63bB1t2j-9tI6uL5qRUATPEfaKMr9DoBRmw')
