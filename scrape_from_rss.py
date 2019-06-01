@@ -6,9 +6,9 @@ import json
 from os.path import isfile
 import helpers
 from time import sleep
-import re
 import datetime
 import numpy as np
+
 
 if isfile('feed_info.txt'):
 	feed_info = json.load(open("feed_info.txt"))
@@ -30,19 +30,6 @@ while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.dateti
 		feed_name = feed_info[feed]['name']
 		feed_path = feed_info[feed]['path']
 		feed_rss = feedparser.parse(feed_path)
-	#	feed_etag = feed_info[feed]['etag']
-	#	if feed_etag == '':
-	#		feed_rss = feedparser.parse(feed_path)
-	#		feed_etag = feed_rss.etag
-	#		feed_info[feed]['etag'] = feed_rss.etag
-	#	else:
-	#		feed_rss = feedparser.parse(feed_path, etag=feed_etag)
-	#		
-	#	if feed_rss.status == 304:
-	#		#print('No new items in %s since last update.' % feed_name)
-	#		continue
-	#	else:
-			#print('Number of RSS posts : %d' % len(feed_rss.entries))	
 		for i in range(len(feed_rss.entries)):
 			entry = feed_rss.entries[i]
 			abstract = feed_rss.entries[i].summary[3:-4].replace('\n',' ')
@@ -77,3 +64,7 @@ while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.dateti
 	attempts = attempts + 1
 
 	sleep(5*60)
+	
+while datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6:
+	helpers.retweet_old(46)
+	

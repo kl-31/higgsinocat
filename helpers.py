@@ -210,13 +210,31 @@ def tweet_post(line,image_flag):
 	try:
 		if image_flag == False:
 			api.update_status(line)
-			sleep(30*60) #30 mins for arxiv
+			sleep(25*60) #30 mins for arxiv
 			return True
 		else:
 			api.update_with_media('./data/tweet_pic.png',line)
-			sleep(30*60) #30 mins for arxiv
+			sleep(25*60) #30 mins for arxiv
 			return True
 	except tweepy.TweepError as e:
 		print(e.args[0][0]['message'])
 		return False
 
+def retweet_old(number):
+	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
+	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
+	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+	tweets = []
+	# retweeting tweets
+	for page in tweepy.Cursor(api.user_timeline, count = 200).pages():
+			tweets.extend(page)
+			sleep(5)	
+	
+	for i in range(number):
+		while 1:
+			tweet = choice(tweets)
+			if tweet.retweeted == False:
+				break
+		api.retweet(tweet.id)
+		sleep(25*60)	
+	return 
