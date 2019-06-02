@@ -55,7 +55,13 @@ def get_titles_db():
 	creds = ServiceAccountCredentials.from_json_keyfile_dict(
     keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
-	client = gspread.authorize(creds)
+	while 1:
+		try:
+			client = gspread.authorize(creds)
+			break
+		except:
+			sleep(60)
+			continue	
 	sh = client.open_by_key('1DHGj_3CybB2hewWu8XsUbFer6iUcaLHBLjtGM9YHUIw')
 	worksheet = sh.sheet1
 	titles_list = worksheet.col_values(1)	
@@ -65,7 +71,13 @@ def write_to_db(row_to_write):
 	creds = ServiceAccountCredentials.from_json_keyfile_dict(
     keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
-	client = gspread.authorize(creds)
+	while 1:
+		try:
+			client = gspread.authorize(creds)
+			break
+		except:
+			sleep(60)
+			continue	
 	sh = client.open_by_key('1DHGj_3CybB2hewWu8XsUbFer6iUcaLHBLjtGM9YHUIw')
 	worksheet = sh.sheet1
 	#row_to_write.append(str(datetime.date.today())) #append is problematic
@@ -133,7 +145,13 @@ def get_author_handles(raw_author_list,title):
 	creds = ServiceAccountCredentials.from_json_keyfile_dict(
 	keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
-	client = gspread.authorize(creds)
+	while 1:
+		try:
+			client = gspread.authorize(creds)
+			break
+		except:
+			sleep(60)
+			continue	
 	
 	# authors
 	sh = client.open_by_key('1mvv1ZtqWnxQWk6FUV6b14Po4J0MlYyjq5jh0W8vU49o')
