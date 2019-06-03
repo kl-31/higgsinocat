@@ -22,7 +22,7 @@ posted = np.zeros(len(feed_info.keys()),dtype=np.int)
 attempts = 0
 
 # check if any one of the feeds has been empty. not just all empty
-while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6) and attempts < 72:
+while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6) and attempts < 10:
 	n_feed = 0
 	for feed in feed_info.keys():	
 		titles_list = helpers.get_titles_db()
@@ -52,9 +52,9 @@ while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.dateti
 	#				if helpers.tweet_post('%s (relevance: %.0f%% but this is in %s so my model probably meowssed up) %s #biophotonics #biomedicaloptics' % (entry.title, proba_out[-1]* 100, feed_name, entry.link)):
 	#						posted = posted + 1
 					
-			if sum(posted) >=46: # 46/2 hours elapsed  
+			if sum(posted) >=22: # 46/2 hours elapsed  
 			   break
-		if sum(posted) >=46: # 46/2 hours elapsed  
+		if sum(posted) >=22: # 46/2 hours elapsed  
 			break
 				#print('%d: %s' % (i,row[0]))
 		sleep(1)
@@ -63,7 +63,7 @@ while np.count_nonzero(written) < len(feed_info.keys()) and not (datetime.dateti
 	print('%d tweets posted.' % sum(posted))
 	attempts = attempts + 1
 
-	sleep(5*60)
+	sleep(10*60)
 	
 while datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6:
 	helpers.retweet_old(46)
