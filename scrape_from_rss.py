@@ -66,5 +66,5 @@ while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datet
 	sleep(10*60)
 	
 while datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6:
-	helpers.retweet_old(46)
+	helpers.retweet_old(22)
 	
