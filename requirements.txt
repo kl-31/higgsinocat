@@ -12,3 +12,4 @@ python-Levenshtein
 patool
 pdf2image
 imageio
+PyMuPDF
