@@ -21,6 +21,8 @@ written = np.zeros(len(feed_info.keys()),dtype=np.int)
 posted = np.zeros(len(feed_info.keys()),dtype=np.int)
 attempts = 0
 
+twit_handles =helpers.pull_handles_from_twitter(['Xenon1T','luxdarkmatter','CelineBoehm1'])
+
 # check if any one of the feeds has been empty. not just all empty
 while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6) and attempts < 10:
 	n_feed = 0
@@ -42,16 +44,13 @@ while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datet
 				written[n_feed] = written[n_feed] + 1
 				#print(proba_out)
 				if proba_out[-1] >=0.3:
-					handles = helpers.get_author_handles(entry.authors, unidecode(entry.title))
+					handles = helpers.get_author_handles(entry.authors, unidecode(entry.title), twit_handles)
 					title = entry.title
 					if len(title) > 160:
 						title = title[:160] + '...'
 					if helpers.tweet_post('%s relevance:%.0f%% %s #darkmatter %s' % (title, proba_out[-1]* 100,entry.link,handles),helpers.scrape_image(entry.link)):
 							posted[n_feed] = posted[n_feed] + 1
-	#			elif proba_out[-1] < 0.5 and (feed_name == 'Biomedical Optics Express' or feed_name == 'Journal of Biophotonics'):
-	#				if helpers.tweet_post('%s (relevance: %.0f%% but this is in %s so my model probably meowssed up) %s #biophotonics #biomedicaloptics' % (entry.title, proba_out[-1]* 100, feed_name, entry.link)):
-	#						posted = posted + 1
-					
+				
 			if sum(posted) >=22: # 46/2 hours elapsed  
 			   break
 		if sum(posted) >=22: # 46/2 hours elapsed  

@@ -117,7 +117,7 @@ def compute_proba(titles):
 	arr[4] = float(pred[:,1])
 	return arr
 	
-def pull_follower_handles(accounts):
+def pull_handles_from_twitter(accounts):
 	# twitter followers
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
 	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
@@ -142,7 +142,7 @@ def pull_follower_handles(accounts):
 	
 	return add_handles_data
 
-def get_author_handles(raw_author_list,title):
+def get_author_handles(raw_author_list,title,twitter_handles_data):
 	creds = ServiceAccountCredentials.from_json_keyfile_dict(
 	keyfile_dict=keyfile_dict, scopes=scopes)
 	#creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
@@ -163,7 +163,7 @@ def get_author_handles(raw_author_list,title):
 	sleep(1) # always pause 1 sec after every gsheet read/write
 	
 	# twitter authors
-	twitter_handles_data = pull_follower_handles(['Xenon1T','luxdarkmatter'])
+	#twitter_handles_data = pull_follower_handles(['Xenon1T','luxdarkmatter','CelineBoehm1'])
 	author_handles_data.update(twitter_handles_data)
 	
 	# collabs
@@ -246,11 +246,11 @@ def tweet_post(line,image_flag):
 	try:
 		if image_flag == False:
 			api.update_status(line)
-			sleep(25*60) #30 mins for arxiv
+			sleep(30*60) #30 mins for arxiv
 			return True
 		else:
 			api.update_with_media('./data/tweet_pic.png',line)
-			sleep(25*60) #30 mins for arxiv
+			sleep(30*60) #30 mins for arxiv
 			return True
 	except tweepy.TweepError as e:
 		print(e.args[0][0]['message'])
@@ -272,5 +272,5 @@ def retweet_old(number):
 			if tweet.retweeted == False:
 				break
 		api.retweet(tweet.id)
-		sleep(25*60)	
+		sleep(30*60)	
 	return 
