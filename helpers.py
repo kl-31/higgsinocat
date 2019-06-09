@@ -262,7 +262,7 @@ def retweet_old(number):
 	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,retry_count=10, retry_delay=5, retry_errors=set([503]))
 	tweets = []
 	# retweeting tweets
-	for page in tweepy.Cursor(api.user_timeline, count = 200).pages():
+	for page in tweepy.Cursor(api.user_timeline, count = 100).pages():
 			tweets.extend(page)
 			sleep(5)	
 	
