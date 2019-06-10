@@ -204,7 +204,10 @@ def scrape_image(link):
 		patoolib.extract_archive("source", outdir="./data/")
 	except:
 		print('Arxiv: eprint not a zip file, so probably PDF.')
-		doc = fitz.open('source')
+		try:
+			doc = fitz.open('source')
+		except:
+			return False
 		img_pgs = []
 		for i in range(len(doc)):
 			if len(doc.getPageImageList(i)) > 0:
