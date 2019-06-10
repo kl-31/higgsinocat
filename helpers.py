@@ -207,6 +207,7 @@ def scrape_image(link):
 		try:
 			doc = fitz.open('source')
 		except: # source file not a PDF file, just post first page of PDF
+			print('eprint not a pdf file either. scraping pdf file for first page.')
 			urllib.request.urlretrieve(link.replace('abs','pdf'),'source')
 			call(['convert','-density','150','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off','./source[0]','./data/tweet_pic.png'])
 			print('Page 0 saved as image.')
@@ -227,16 +228,19 @@ def scrape_image(link):
 #	if glob.glob('./data/' + '**/*.tex', recursive=True) !=[]:
 	files = glob.glob('./data/' + '**/*.png', recursive=True)
 	if files != []:
+		print('Found png files.')
 		picraw = choice(files)
 		call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
 		return True
 	else:
 		otherfiles = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True) + glob.glob('./data/' + '**/*.ps', recursive=True)
 		if otherfiles != []:
+			print('Found pdf/eps/ps files.')
 			picraw = choice(otherfiles)
 			call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
 			return True
 		else:
+			print('Found no picture files, scraping pdf for first page.')
 			urllib.request.urlretrieve(link.replace('abs','pdf'),'./data/paper.pdf')
 			call(['convert','-density','150','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off','./data/paper.pdf[0]','./data/tweet_pic.png'])
 			print('Page 0 saved as image.')
