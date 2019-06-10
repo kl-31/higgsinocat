@@ -187,8 +187,8 @@ def get_author_handles(raw_author_list,title,twitter_handles_data):
 		if fuzz.partial_ratio(title,handle_query) > 90:
 			handles_all = handles_all + collab_handles_data[handle_query] + ' '
 			
-	for handle_query in author_handles_data.keys():
-		for author in author_list:
+	for author in author_list:
+		for handle_query in author_handles_data.keys():
 			if fuzz.ratio(normalize_text(author),normalize_text(handle_query)) > 90:
 				handles_all = handles_all + author_handles_data[handle_query] + ' '
 				#print(author+' matched with ' +handle_query)
