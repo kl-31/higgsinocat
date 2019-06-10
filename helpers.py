@@ -206,8 +206,12 @@ def scrape_image(link):
 		print('Arxiv: eprint not a zip file, so probably PDF.')
 		try:
 			doc = fitz.open('source')
-		except:
-			return False
+		except: # source file not a PDF file, just post first page of PDF
+			urllib.request.urlretrieve(link.replace('abs','pdf'),'source')
+			call(['convert','-density','150','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off','./source[0]','./data/tweet_pic.png'])
+			print('Page 0 saved as image.')
+			return True			
+
 		img_pgs = []
 		for i in range(len(doc)):
 			if len(doc.getPageImageList(i)) > 0:
