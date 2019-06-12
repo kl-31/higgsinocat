@@ -18,6 +18,11 @@
     "name": "astro-ph.HE",
     "path": "http://export.arxiv.org/rss/astro-ph.HE",
     "etag": ""
+  },  
+    "astro-ph.GA": {
+    "name": "astro-ph.GA",
+    "path": "http://export.arxiv.org/rss/astro-ph.GA",
+    "etag": ""
   }
   
 }
