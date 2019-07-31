@@ -264,8 +264,21 @@ def tweet_post(line,image_flag):
 			sleep(30*60) #30 mins for arxiv
 			return True
 	except tweepy.TweepError as e:
-		print(e.args[0][0]['message'])
-		return False
+		sleep(30) # wait 30 seconds, try tweeting again
+		try:
+			if image_flag == False:
+				api.update_status(line)
+				sleep(30*60) #30 mins for arxiv
+				return True
+			else:
+				api.update_with_media('./data/tweet_pic.png',line)
+				sleep(30*60) #30 mins for arxiv
+				return True
+		except tweepy.TweepError as e:
+			print('Something went wrong with Twitter API.')
+				#print(e.args[0][0]['message'])		
+		#print(e.args[0][0]['message'])
+			return False
 
 def retweet_old(number):
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])

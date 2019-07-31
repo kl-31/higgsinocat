@@ -51,9 +51,9 @@ while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datet
 					if helpers.tweet_post('%s relevance:%.0f%% %s #darkmatter %s' % (title, proba_out[-1]* 100,entry.link,handles),helpers.scrape_image(entry.link)):
 							posted[n_feed] = posted[n_feed] + 1
 				
-			if sum(posted) >=22: # 46/2 hours elapsed  
+			if sum(posted) >=11: # 46/4 hours elapsed  
 			   break
-		if sum(posted) >=22: # 46/2 hours elapsed  
+		if sum(posted) >=11: # 46/4 hours elapsed  
 			break
 				#print('%d: %s' % (i,row[0]))
 		sleep(1)
@@ -65,5 +65,5 @@ while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datet
 	sleep(10*60)
 	
 while datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6:
-	helpers.retweet_old(22)
+	helpers.retweet_old(11)
 	
