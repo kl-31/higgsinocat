@@ -253,7 +253,7 @@ def scrape_image(link):
 def tweet_post(line,image_flag):
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
 	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
-	api = tweepy.API(auth,retry_count=10, retry_delay=5, retry_errors=set([503])	)
+	api = tweepy.API(auth,retry_count=10, retry_delay=15, retry_errors=set([503])	)
 	try:
 		if image_flag == False:
 			api.update_status(line)
@@ -264,7 +264,7 @@ def tweet_post(line,image_flag):
 			sleep(30*60) #30 mins for arxiv
 			return True
 	except tweepy.TweepError as e:
-		sleep(30) # wait 30 seconds, try tweeting again
+		sleep(60) # wait 60 seconds, try tweeting again
 		try:
 			if image_flag == False:
 				api.update_status(line)
@@ -283,7 +283,7 @@ def tweet_post(line,image_flag):
 def retweet_old(number):
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
 	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
-	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,retry_count=10, retry_delay=5, retry_errors=set([503]))
+	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,retry_count=10, retry_delay=15, retry_errors=set([503]))
 	tweets = []
 	# retweeting tweets
 	tweets = api.user_timeline(count = 200)
