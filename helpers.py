@@ -229,14 +229,28 @@ def scrape_image(link):
 	files = glob.glob('./data/' + '**/*.png', recursive=True)
 	if files != []:
 		print('Found png files.')
-		picraw = choice(files)
+		tries = 0
+		while tries < 5:
+			picraw = choice(files)
+			tries += 1
+			if not ('ORCID' in picraw or 'example' in picraw): # check that example or ORCID images are not selected
+				break
+			if tries==5:
+				return False
 		call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
 		return True
 	else:
 		otherfiles = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True) + glob.glob('./data/' + '**/*.ps', recursive=True)
 		if otherfiles != []:
 			print('Found pdf/eps/ps files.')
-			picraw = choice(otherfiles)
+			tries = 0
+			while tries < 5:
+				picraw = choice(otherfiles)
+				tries += 1
+				if not ('ORCID' in picraw or 'example' in picraw): # check that example or ORCID images are not selected
+					break
+				if tries==5:
+					return False
 			call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
 			return True
 		else:
