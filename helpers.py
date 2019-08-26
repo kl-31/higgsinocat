@@ -226,6 +226,17 @@ def scrape_image(link):
 			print('Page 0 saved as image.')
 			return True
 #	if glob.glob('./data/' + '**/*.tex', recursive=True) !=[]:
+
+	higfiles = glob.glob('./data/' + '**/hig*', recursive=True)
+	if higfiles != []:
+		print('Found higfiles!')
+		picraw = choice(higfiles)
+		try:
+			call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
+			return True			
+		except Exception:
+			pass
+
 	files = glob.glob('./data/' + '**/*.png', recursive=True)
 	if files != []:
 		print('Found png files.')
