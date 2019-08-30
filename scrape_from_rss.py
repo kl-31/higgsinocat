@@ -46,8 +46,8 @@ while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datet
 				if proba_out[-1] >=0.3:
 					handles = helpers.get_author_handles(entry.authors, unidecode(entry.title), twit_handles)
 					title = entry.title
-					if len(title) > 160:
-						title = title[:160] + '...'
+					if len(title) > 150:
+						title = title[:150] + '...'
 					if helpers.tweet_post('%s relevance:%.0f%% %s #darkmatter %s' % (title, proba_out[-1]* 100,entry.link,handles),helpers.scrape_image(entry.link)):
 							posted[n_feed] = posted[n_feed] + 1
 				
