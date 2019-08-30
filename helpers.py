@@ -251,9 +251,9 @@ def scrape_image(link):
 		call(['convert','-density','300','-define', 'trim:percent-background=2%','-trim','+repage','-background', 'white', '-alpha', 'remove', '-alpha', 'off', picraw+'[0]','./data/tweet_pic.png'])
 		return True
 	else:
-		otherfiles = glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True) + glob.glob('./data/' + '**/*.ps', recursive=True)
+		otherfiles = glob.glob('./data/' + '**/*.jpg', recursive=True) + glob.glob('./data/' + '**/*.jpeg', recursive=True) + glob.glob('./data/' + '**/*.pdf', recursive=True) + glob.glob('./data/' + '**/*.eps', recursive=True) + glob.glob('./data/' + '**/*.ps', recursive=True)
 		if otherfiles != []:
-			print('Found pdf/eps/ps files.')
+			print('Found jpeg/pdf/eps/ps files.')
 			tries = 0
 			while tries < 5:
 				picraw = choice(otherfiles)
