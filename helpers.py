@@ -335,6 +335,9 @@ def retweet_old(number):
 			tweet = choice(tweets)
 			if tweet.retweeted == False:
 				break
-		api.retweet(tweet.id)
-		sleep(30*60)	
+		try:
+			api.retweet(tweet.id)
+			sleep(30*60)	
+		except:
+			pass
 	return 
