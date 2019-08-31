@@ -21,7 +21,7 @@ written = np.zeros(len(feed_info.keys()),dtype=np.int)
 posted = np.zeros(len(feed_info.keys()),dtype=np.int)
 attempts = 0
 
-twit_handles =helpers.pull_handles_from_twitter(['Xenon1T','luxdarkmatter','CelineBoehm1'])
+twit_handles =helpers.pull_handles_from_twitter(['higgsinocat','Xenon1T','luxdarkmatter','CelineBoehm1'])
 
 # check if any one of the feeds has been empty. not just all empty
 while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6) and attempts < 10:
