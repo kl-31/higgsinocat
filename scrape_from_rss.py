@@ -29,7 +29,7 @@ twit_handles =helpers.pull_handles_from_twitter(['higgsinocat','Xenon1T','luxdar
 while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6) and attempts < 10:
 	n_feed = 0
 	for feed in feed_info.keys():	
-		
+		titles_list = helpers.get_titles_db()
 		#print(feed)
 		feed_name = feed_info[feed]['name']
 		feed_path = feed_info[feed]['path']
@@ -38,7 +38,7 @@ while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datet
 			entry = feed_rss.entries[i]
 			abstract = feed_rss.entries[i].summary[3:-4].replace('\n',' ')
 			row = [[unidecode(entry.title), abstract, entry.link, feed_name]] # 2D array of size (1,3)
-			titles_list = helpers.get_titles_db()
+			
 			if row[0][0] not in titles_list:
 				proba_out = helpers.compute_proba(row)
 				#print(row)
