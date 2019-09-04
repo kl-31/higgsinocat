@@ -227,7 +227,7 @@ def scrape_image(link):
 			return True
 #	if glob.glob('./data/' + '**/*.tex', recursive=True) !=[]:
 
-	higfiles = glob.glob('./data/' + '**/hig*', recursive=True)
+	higfiles = glob.glob('./data/' + '**/hig.*', recursive=True)
 	if higfiles != []:
 		print('Found higfiles!')
 		picraw = choice(higfiles)
