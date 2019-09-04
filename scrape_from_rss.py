@@ -17,6 +17,8 @@ else:
 
 					}
 
+time = 6 * 60 # 6 hours
+interval = 10 # minutes
 written = np.zeros(len(feed_info.keys()),dtype=np.int)
 posted = np.zeros(len(feed_info.keys()),dtype=np.int)
 attempts = 0
@@ -49,12 +51,12 @@ while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datet
 					title = entry.title
 					if len(title) > 150:
 						title = title[:150] + '...'
-					if helpers.tweet_post('%s relevance:%.0f%% %s #darkmatter %s' % (title, proba_out[-1]* 100,entry.link,handles),helpers.scrape_image(entry.link)):
+					if helpers.tweet_post('%s relevance:%.0f%% %s #darkmatter %s' % (title, proba_out[-1]* 100,entry.link,handles),helpers.scrape_image(entry.link),interval):
 							posted[n_feed] = posted[n_feed] + 1
 				
-			if sum(posted) >=11: # 46/4 hours elapsed  
+			if sum(posted) >=int(time/interval): # 46/4 hours elapsed  
 			   break
-		if sum(posted) >=11: # 46/4 hours elapsed  
+		if sum(posted) >=int(time/interval): # 46/4 hours elapsed  
 			break
 				#print('%d: %s' % (i,row[0]))
 		sleep(1)
@@ -66,5 +68,5 @@ while sum(written) == 0 and not (datetime.datetime.today().weekday()==5 or datet
 	sleep(10*60)
 	
 while datetime.datetime.today().weekday()==5 or datetime.datetime.today().weekday()==6:
-	helpers.retweet_old(11)
+	helpers.retweet_old(int(time/interval),interval)
 	
