@@ -66,7 +66,7 @@ def get_titles_db():
 	sh = client.open_by_key('1DHGj_3CybB2hewWu8XsUbFer6iUcaLHBLjtGM9YHUIw')
 	worksheet = sh.sheet1
 	titles_list = worksheet.col_values(1)
-	sleep(60)	
+	sleep(15)	
 	return titles_list
 
 def write_to_db(row_to_write):
@@ -84,7 +84,7 @@ def write_to_db(row_to_write):
 	worksheet = sh.sheet1
 	#row_to_write.append(str(datetime.date.today())) #append is problematic
 	worksheet.insert_row(row_to_write+[str(datetime.date.today())] ,1)
-	sleep(60) # google api 60 write requests per 60 sec
+	sleep(15) # google api 60 write requests per 60 sec
 	return None
 
 
@@ -276,7 +276,7 @@ def scrape_image(link):
 #		if glob.glob('./data/' + '**/*.pdf', recursive=True) !=[]:	
 	
 
-def tweet_post(line,image_flag):
+def tweet_post(line,image_flag,interv):
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
 	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
 	api = tweepy.API(auth,retry_count=10, retry_delay=15, retry_errors=set([503])	)
@@ -284,13 +284,13 @@ def tweet_post(line,image_flag):
 	if isinstance(image_flag,tuple):
 		try:
 			api.update_with_media('./data/tweet_pic.png',line + ' (fig picked by authors)')
-			sleep(30*60) #30 mins for arxiv
+			sleep(interv*60) #30 mins for arxiv
 			return True			
 		except tweepy.TweepError as e:
 			sleep(60)
 			try:
 				api.update_with_media('./data/tweet_pic.png',line + ' (fig picked by authors)')
-				sleep(30*60) #30 mins for arxiv
+				sleep(interv*60) #30 mins for arxiv
 				return True					
 			except tweepy.TweepError as e:	
 				print('Something went wrong with Twitter API.')
@@ -300,22 +300,22 @@ def tweet_post(line,image_flag):
 		try:
 			if image_flag == False:
 				api.update_status(line)
-				sleep(30*60) #30 mins for arxiv
+				sleep(interv*60) #30 mins for arxiv
 				return True
 			else:
 				api.update_with_media('./data/tweet_pic.png',line)
-				sleep(30*60) #30 mins for arxiv
+				sleep(interv*60) #30 mins for arxiv
 				return True
 		except tweepy.TweepError as e:
 			sleep(60) # wait 60 seconds, try tweeting again
 			try:
 				if image_flag == False:
 					api.update_status(line)
-					sleep(30*60) #30 mins for arxiv
+					sleep(interv*60) #30 mins for arxiv
 					return True
 				else:
 					api.update_with_media('./data/tweet_pic.png',line)
-					sleep(30*60) #30 mins for arxiv
+					sleep(interv*60) #30 mins for arxiv
 					return True
 			except tweepy.TweepError as e:
 				print('Something went wrong with Twitter API.')
@@ -323,7 +323,7 @@ def tweet_post(line,image_flag):
 			#print(e.args[0][0]['message'])
 				return False
 
-def retweet_old(number):
+def retweet_old(number,interv):
 	auth = tweepy.OAuthHandler(environ['TWITTER_CONSUMER_KEY'], environ['TWITTER_CONSUMER_SECRET'])
 	auth.set_access_token(environ['TWITTER_ACCESS_TOKEN'], environ['TWITTER_ACCESS_SECRET'])
 	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,retry_count=10, retry_delay=15, retry_errors=set([503]))
@@ -338,7 +338,7 @@ def retweet_old(number):
 				break
 		try:
 			api.retweet(tweet.id)
-			sleep(30*60)	
+			sleep(interv*60)	
 		except:
 			pass
 	return 
