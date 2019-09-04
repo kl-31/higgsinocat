@@ -66,7 +66,7 @@ def get_titles_db():
 	sh = client.open_by_key('1DHGj_3CybB2hewWu8XsUbFer6iUcaLHBLjtGM9YHUIw')
 	worksheet = sh.sheet1
 	titles_list = worksheet.col_values(1)
-    sleep(60)	
+	sleep(60)	
 	return titles_list
 
 def write_to_db(row_to_write):
