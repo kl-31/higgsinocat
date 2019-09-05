@@ -66,7 +66,7 @@ def get_titles_db():
 	sh = client.open_by_key('1DHGj_3CybB2hewWu8XsUbFer6iUcaLHBLjtGM9YHUIw')
 	worksheet = sh.sheet1
 	titles_list = worksheet.col_values(1)
-	sleep(15)	
+	sleep(1)	
 	return titles_list
 
 def write_to_db(row_to_write):
@@ -84,7 +84,7 @@ def write_to_db(row_to_write):
 	worksheet = sh.sheet1
 	#row_to_write.append(str(datetime.date.today())) #append is problematic
 	worksheet.insert_row(row_to_write+[str(datetime.date.today())] ,1)
-	sleep(15) # google api 60 write requests per 60 sec
+	sleep(1) # google api 60 write requests per 60 sec
 	return None
 
 
