@@ -20,7 +20,7 @@ def scheduled_job2():
 	print('This job is run every weekday at 7am UTC.')
 	subprocess.run(['python', 'scrape_from_rss.py'])
 	
-@sched.scheduled_job('cron', hour=13)
+@sched.scheduled_job('cron', hour=14, minute=20)
 def scheduled_job3():
 	print('This job is run every weekday at 1pm UTC.')
 	subprocess.run(['python', 'scrape_from_rss.py'])
