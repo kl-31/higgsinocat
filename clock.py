@@ -10,22 +10,22 @@ import subprocess
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job1('cron', hour=1)
+@sched.scheduled_job('cron', hour=1)
 def scheduled_job1():
 	print('This job is run every weekday at 1am UTC.')
 	subprocess.run(['python', 'scrape_from_rss.py'])
 
-@sched.scheduled_job2('cron', hour=7)
+@sched.scheduled_job('cron', hour=7)
 def scheduled_job2():
 	print('This job is run every weekday at 7am UTC.')
 	subprocess.run(['python', 'scrape_from_rss.py'])
 	
-@sched.scheduled_job3('cron', hour=13)
+@sched.scheduled_job('cron', hour=13)
 def scheduled_job3():
 	print('This job is run every weekday at 1pm UTC.')
 	subprocess.run(['python', 'scrape_from_rss.py'])
 	
-@sched.scheduled_job4('cron', hour=19)
+@sched.scheduled_job('cron', hour=19)
 def scheduled_job4():
 	print('This job is run every weekday at 7pm UTC.')
 	subprocess.run(['python', 'scrape_from_rss.py'])
