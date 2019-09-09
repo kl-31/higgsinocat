@@ -13,3 +13,4 @@ patool
 pdf2image
 imageio
 PyMuPDF
+APScheduler==3.0.0
