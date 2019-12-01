@@ -17,7 +17,7 @@ else:
 
 					}
 
-time = 6 * 60 # 6 hours
+time = 3 * 60 # 3 hours
 interval = 30 # minutes
 written = np.zeros(len(feed_info.keys()),dtype=np.int)
 posted = np.zeros(len(feed_info.keys()),dtype=np.int)
